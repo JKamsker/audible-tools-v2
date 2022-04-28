@@ -35,35 +35,35 @@ const RenderContainer = () => {
   </Grid>);
 };
 
-// const getColor = (props) => {
-//   if (props.isDragAccept) {
-//     return '#00e676';
-//   }
-//   if (props.isDragReject) {
-//     return '#ff1744';
-//   }
-//   if (props.isFocused) {
-//     return '#2196f3';
-//   }
-//   return '#eeeeee';
-// }
+const getColor = (props) => {
+  if (props.isDragAccept) {
+    return '#00e676';
+  }
+  if (props.isDragReject) {
+    return '#ff1744';
+  }
+  if (props.isFocused) {
+    return '#2196f3';
+  }
+  return '#eeeeee';
+}
 
-// const DummyDropZone = styled.div`
-//   padding: 30px;
-//   margin-left: 10px; 
-//   margin-right: -10px;
-//   margin-bottom: -15px;
-//   border-width: 2px;
-//   border-radius: 2px;
-//   border-color: ${props => getColor(props)};
-//   border-style: dashed;
-//   background-color: #fafafa;
-//   color: #bdbdbd;
-//   outline: none;
-//   transition: border .24s ease-in-out;
-//   width: 100%;
-//   text-align: center;
-// `;
+const DummyDropZone = styled.div`
+  padding: 30px;
+  margin-left: 10px; 
+  margin-right: -10px;
+  margin-bottom: -15px;
+  border-width: 2px;
+  border-radius: 2px;
+  border-color: ${props => getColor(props)};
+  border-style: dashed;
+  background-color: #fafafa;
+  color: #bdbdbd;
+  outline: none;
+  transition: border .24s ease-in-out;
+  width: 100%;
+  text-align: center;
+`;
 
 // const RealDropZone = styled.div`
 //   box-sizing: border-box;
@@ -80,22 +80,22 @@ const RenderContainer = () => {
 // `;
 
 
-// function StyledDropzone(props) {
-//   const {
-//     getRootProps,
-//     getInputProps,
-//     isFocused,
-//     isDragAccept,
-//     isDragReject
-//   } = useDropzone({accept: 'image/*'});
+function StyledDropzone(props) {
+  const {
+    getRootProps,
+    getInputProps,
+    isFocused,
+    isDragAccept,
+    isDragReject
+  } = useDropzone({accept: 'image/*'});
 
-//   return (
-//      <DummyDropZone {...getRootProps({isFocused, isDragAccept, isDragReject})}>
-//         <input {...getInputProps()} />
-//         <p>Drag 'n' drop some files here, or click to select fil es</p>
-//       </DummyDropZone>
-//   );
-// }
+  return (
+     <DummyDropZone {...getRootProps({isFocused, isDragAccept, isDragReject})}>
+        <input {...getInputProps()} />
+        <p>Drag 'n' drop some files here, or click to select fil es</p>
+      </DummyDropZone>
+  );
+}
 
 
 const RenderDropZone = () => {
@@ -161,7 +161,7 @@ const Dashboard = () => (
                 >
                   {RenderContainer()}
                   {RenderContainer()}
-                  {/* {RenderDropZone()} */}
+                  {RenderDropZone()}
                 </Grid>
               </Container>
             </Box>
