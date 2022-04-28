@@ -21,6 +21,7 @@ import { Card, CardContent } from '@mui/material';
 
 // import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
+import AudioDropzone from './audio-dropzone';
 
 
 const RenderContainer = () => {
@@ -87,13 +88,13 @@ function StyledDropzone(props) {
     isFocused,
     isDragAccept,
     isDragReject
-  } = useDropzone({accept: 'image/*'});
+  } = useDropzone({ accept: 'image/*' });
 
   return (
-     <DummyDropZone {...getRootProps({isFocused, isDragAccept, isDragReject})}>
-        <input {...getInputProps()} />
-        <p>Drag 'n' drop some files here, or click to select fil es</p>
-      </DummyDropZone>
+    <DummyDropZone {...getRootProps({ isFocused, isDragAccept, isDragReject })}>
+      <input {...getInputProps()} />
+      <p>Drag 'n' drop some files here, or click to select fil es</p>
+    </DummyDropZone>
   );
 }
 
@@ -118,7 +119,7 @@ const RenderDropZone = () => {
         // sx={{ justifyContent: 'space-between' }}
         // xs={12}
         >
-          <StyledDropzone />
+          {/* <StyledDropzone /> */}
 
         </Grid>
 
@@ -135,8 +136,18 @@ const Dashboard = () => (
         Dashboard | Material Kit
       </title>
     </Head>
-
-    <Dropzone
+    <Container maxWidth={false}>
+      <Grid
+        container
+        spacing={3}
+      >
+        {RenderContainer()}
+        {RenderContainer()}
+        {/* {RenderDropZone()} */}
+        <AudioDropzone />
+      </Grid>
+    </Container>
+    {/* <Dropzone
       noClick
       onDrop={acceptedFiles => {
         console.log(acceptedFiles);
@@ -169,7 +180,7 @@ const Dashboard = () => (
           </div>
         </section>
       )}
-    </Dropzone>
+    </Dropzone> */}
 
 
   </>
