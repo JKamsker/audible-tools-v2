@@ -17,3 +17,19 @@
 
 }
 
+.dummyDropZone {
+  padding: 30px;
+  margin-left: 10px; 
+  margin-right: -10px;
+  margin-bottom: -15px;
+  border-width: 2px;
+  border-radius: 2px;
+  border-color: #eeeeee;
+  border-style: dashed;
+  background-color: #fafafa;
+  color: #bdbdbd;
+  outline: none;
+  transition: border .24s ease-in-out;
+  width: 100%;
+  text-align: center;
+}
