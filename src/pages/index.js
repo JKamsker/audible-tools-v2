@@ -10,7 +10,7 @@ import AudioDropzone from './audio-dropzone';
 import { TotalProfit } from 'src/components/dashboard/total-profit';
 // import { GetInfo } from '../utils/online-converter';
 
-import { getInfo } from 'react-mediainfo'
+// import { getInfo } from 'react-mediainfo'
 
 const RenderContainer = () => {
   return (<Grid

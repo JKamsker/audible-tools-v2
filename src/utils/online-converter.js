@@ -1,3 +1,13 @@
+/*
+This thing works in the console:
+    const script = document.createElement('script');
+    script.src = './mediainfo.js/mediainfo.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    var minfo = await MediaInfo();
+*/
+
 // import { MediaInfo } from 'mediainfo.js';
 // import React, { useState, useEffect, useRef } from 'react';
 // import ScriptLoader from './script-loader';
