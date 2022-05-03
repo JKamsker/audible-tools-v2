@@ -8,6 +8,11 @@
 
   // next.config.js
 module.exports = {
+  webpack: (config) => {
+    config.resolve.fallback = { fs: false, path: false, stream: false, constants: false };
+    return config;
+
+  },
   async headers() {
     // asdasd
    return [
@@ -23,3 +28,4 @@ module.exports = {
    ]
  }
 }
+

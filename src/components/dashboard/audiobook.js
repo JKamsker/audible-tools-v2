@@ -10,7 +10,7 @@ import Image from 'next/image'
 
 // import TestCover from './TestCover.jpg';
 const myLoader = ({ src, width, quality }) => {
-  return `https://m.media-amazon.com/images/I/51Y7y-C2uOL._SL500_.jpg`
+  return `http://localhost:3000/static/images/TestCover.jpg`
 }
 
 export const AudioBook = (props) => (
@@ -26,7 +26,7 @@ export const AudioBook = (props) => (
       >
         <Grid item sx={{
           display: {
-            xs: "none", lg: "flex"
+            xs: "none", md: "flex"
           },
           justifyContent: 'center',
           alignItems: 'center',

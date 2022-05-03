@@ -8,7 +8,9 @@ import React from 'react'
 import { useDropzone } from 'react-dropzone';
 import AudioDropzone from './audio-dropzone';
 import { TotalProfit } from 'src/components/dashboard/total-profit';
-import { GetInfos } from '../utils/online-converter';
+// import { GetInfo } from '../utils/online-converter';
+
+import { getInfo } from 'react-mediainfo'
 
 const RenderContainer = () => {
   return (<Grid
@@ -21,12 +23,12 @@ const RenderContainer = () => {
   >
 
     <AudioBook name="Book"
-        author="James Islington"
-        title="The Shadow of What Was Lost: The Licanius Trilogy, Book 1"
-        fileName="TheShadowofWhatWasLostTheLicaniusTrilogyBook1_ep6.aax"
-        checksum="a4cfea52649d6efc12c5174b6b51dd523f102fa1"
-        activationBytes="9f786605"
-        duration="25:36"
+      author="James Islington"
+      title="The Shadow of What Was Lost: The Licanius Trilogy, Book 1"
+      fileName="TheShadowofWhatWasLostTheLicaniusTrilogyBook1_ep6.aax"
+      checksum="a4cfea52649d6efc12c5174b6b51dd523f102fa1"
+      activationBytes="9f786605"
+      duration="25:36"
     />
   </Grid>);
 };
@@ -39,14 +41,21 @@ const RenderProfit = () => {
     xl={3}
     xs={12}
   >
-    <TotalProfit/>
+    <TotalProfit />
   </Grid>);
 };
 
-const onFiles = async (files) => { 
+const onFiles = async (files) => {
   console.log(files);
-  for(let i = 0; i < files.length; i++) {
-    await GetInfos(files[i]);
+  const info = await getInfo(files[0]);
+  // debugger;
+
+
+
+
+  for (let i = 0; i < files.length; i++) {
+    // let res = await GetInfo(files[i]);
+    debugger;
   }
 }
 
