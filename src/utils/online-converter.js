@@ -8,9 +8,83 @@ This thing works in the console:
     var minfo = await MediaInfo();
 */
 
-// import { MediaInfo } from 'mediainfo.js';
-// import React, { useState, useEffect, useRef } from 'react';
-// import ScriptLoader from './script-loader';
+import ScriptLoader from './script-loader';
+
+export default class OnlineConverter {
+    constructor(options) {
+
+    }
+
+    getInfo = async (file) => {
+        const mi = await OnlineConverter.getMediaInfo();
+        const rawInfo = await mi.analyzeData(() => file.size, this.readChunk(file));
+        return {
+            author: rawInfo.media.track[0].Album_Performer,
+            title: rawInfo.media.track[0].Title,
+            fileName: file.name,
+            duration: this.getHHMMSSFromSeconds(rawInfo.media.track[1].Duration),
+            cover: rawInfo.media.track[0].Cover_Data,
+          };
+    }
+
+    getHHMMSSFromSeconds = (totalSeconds) => {
+        if (!totalSeconds) {
+          return '00:00:00';
+        }
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor(totalSeconds % 3600 / 60);
+        const seconds = Math.round(totalSeconds % 60);
+        const hhmmss = this.padTo2(hours) + ':' + this.padTo2(minutes) + ':' + this.padTo2(seconds);
+        return hhmmss;
+    }
+
+    padTo2 = (value) => {
+        if (!value) {
+          return '00';
+        }
+        return value < 10 ? String(value).padStart(2, '0') : value;
+      }
+
+    
+    readChunk = (file) => (chunkSize, offset) =>
+        new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                if (event.target.error) {
+                    reject(event.target.error);
+                }
+                resolve(new Uint8Array(event.target.result));
+            };
+            reader.readAsArrayBuffer(file.slice(offset, offset + chunkSize));
+        });
+        
+
+    
+
+    static async getMediaInfo() {
+        await OnlineConverter.initialize();
+        return OnlineConverter.__mediaInfo;
+    }
+
+    static async initialize() {
+        if(!OnlineConverter.__mediaInfo ){
+            await this.__load_mediaInfoJs();
+            OnlineConverter.__mediaInfo = await MediaInfo({ coverData: true });
+        }
+    }
+
+    static __load_mediaInfoJs() {
+        if(!OnlineConverter.__loader){
+            OnlineConverter.__loader = new ScriptLoader({
+                src: './mediainfo.js/mediainfo.js',
+                global: 'Segment',
+            });
+        }
+        return OnlineConverter.__loader.load();
+    }
+}
+
+
 
 // const readChunk = (file) => (chunkSize, offset) =>
 //     new Promise((resolve, reject) => {
