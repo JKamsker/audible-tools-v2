@@ -4,7 +4,7 @@ import { AudioBook } from '../components/dashboard/audiobook';
 import { DashboardLayout } from '../components/dashboard-layout';
 
 import React, { useEffect, useState } from 'react'
-import AudioDropzone from './audio-dropzone';
+import AudioDropzone from '../components/dashboard/audio-dropzone';
 import OnlineConverter from '../utils/online-converter';
 
 import { extractChecksum, resolveActivationBytes } from '../utils/AaxChecksumExtractor'
