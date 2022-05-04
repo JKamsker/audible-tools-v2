@@ -29,16 +29,14 @@ const RenderBook = (bookData) => {
 
 
 const onFiles = async (files, bookData, setBookData) => {
-  let mi = new OnlineConverter();
+  let converter = new OnlineConverter();
 
   for (let i = 0; i < files.length; i++) {
-    let info = await mi.getInfo(files[i]);
+    let info = await converter.getInfo(files[i]);
     const checksum = await extractChecksum(files[i]);    
     const bytes = await resolveActivationBytes(checksum);
 
     info = {...info, checksum, activationBytes: bytes};
-
-
 
     setBookData(prev => [...prev, info])
   }

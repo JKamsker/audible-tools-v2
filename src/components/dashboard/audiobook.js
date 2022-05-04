@@ -1,11 +1,17 @@
-import { Avatar, Box, Card, CardContent, CardMedia, Grid, Typography } from '@mui/material';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import MoneyIcon from '@mui/icons-material/Money';
+import {
+  Card, 
+  CardContent,
+  Grid, 
+  Typography, 
+  IconButton,
+  Box,
+  Button,
+} from '@mui/material';
 
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
-import { IconButton } from '@mui/material';
 import Image from 'next/image'
+
 
 
 // import TestCover from './TestCover.jpg';
@@ -72,6 +78,12 @@ export const AudioBook = (props) => {
             {renderText("Checksum", props.checksum, true)}
             {renderText("Activation Bytes", props.activationBytes, true)}
             {renderText("Runtime", props.duration)}
+            <Button
+              color="primary"
+              variant="contained"
+            >
+              Convert
+            </Button>
           </Grid>
         </Grid>
       </CardContent>
