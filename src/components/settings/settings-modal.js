@@ -90,10 +90,28 @@ const OSSelection = ({ value, onChange }) => Selection({
         { "label": "Linux", "value": "linux" },
         { "label": "Mac", "value": "osx" }
     ],
-    legend: "Output Format",
+    legend: "Operating System",
     value,
     onChange
 });
+
+
+const QualitySelection = ({encodeEnabled, setEncodeEnabled, quality, setQuality}) => {
+    // debugger;
+    return <Box style={{ display: 'flex' }}>
+        <FormGroup>
+            <FormControlLabel control={<Switch value={encodeEnabled} onChange={(x, y) => setEncodeEnabled(y)} />} label="Encode (Slow)" style={{ whiteSpace: 'nowrap' }} />
+        </FormGroup>
+        <Slider
+            value={quality}
+            onChange={(x, y) => setQuality(y)}
+            aria-labelledby="input-slider"
+            disabled={!encodeEnabled}
+            min={64}
+            max={320} />
+        <Typography sx={{ paddingLeft: '10px' }}>{quality}kbps</Typography>
+    </Box>;
+}
 
 
 export const SettingsModal = (props) => {
@@ -105,10 +123,8 @@ export const SettingsModal = (props) => {
 
     const [quality, setQuality] = React.useState(320);
 
-
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
 
     return (<>
         <Tooltip title="Settings">
@@ -142,20 +158,7 @@ export const SettingsModal = (props) => {
                 <TabPanel value={tabValue} index={0}>
                     <OutPutFormatSelection value={outputFormat} onChange={setOutputFormat} />
                     <OSSelection value={operatingSystem} onChange={setOperatingSystem} />
-                    <Box style={{display: 'flex'}}>
-                        <FormGroup>
-                            <FormControlLabel control={<Switch value={encodeEnabled} onChange={(x, y) => setEncodeEnabled(y)} />} label="Encode (Slow)" />
-                        </FormGroup>
-                        <Slider
-                            value={quality}
-                            onChange={(x, y) => setQuality(y)}
-                            aria-labelledby="input-slider"
-                            disabled={!encodeEnabled}
-                            min={64}
-                            max={320}
-                        />
-                        <Typography sx={{paddingLeft:'10px'}}>{quality}</Typography>
-                    </Box>
+                    <QualitySelection encodeEnabled={encodeEnabled} setEncodeEnabled={setEncodeEnabled} quality={quality} setQuality={setQuality} />
 
                 </TabPanel>
                 <TabPanel value={tabValue} index={1}>
@@ -179,4 +182,6 @@ export const SettingsModal = (props) => {
             </Box>
         </Modal>
     </>);
+
+   
 };
