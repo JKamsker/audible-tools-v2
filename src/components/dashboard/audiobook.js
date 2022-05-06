@@ -25,7 +25,7 @@ const myLoader = ({ src, width, quality }) => {
 export const AudioBook = (props) => {
   const url = "data:image/png;base64," + props.cover;
   const xLoader = props.cover ? () => url : myLoader;
-
+  // alert(props.getFile().name);
 
   // const example = ({ data }) => <img src={`data:image/png;base64,${props.cover}`} />
   const coverImage = <Image
@@ -77,18 +77,19 @@ export const AudioBook = (props) => {
             {renderText("Runtime", props.duration)}
 
           </Grid>
-          <Grid item xs={12} style={{ marginLeft: '0' }} >
+          <Grid item xs={12} spacing={20} >
             <Button
               color="primary"
               variant="contained"
-              style={{ marginRight: '10px' }}
+              style={{ marginRight:'10px', marginBottom:'10px' }}
             >
               Convert
             </Button>
             <Button
               color="primary"
               variant="contained"
-              
+              style={{  marginBottom:'10px' }}
+
             >
               Generate Command
             </Button>

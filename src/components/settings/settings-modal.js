@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Box, IconButton, Tooltip, FormGroup, Switch } from '@mui/material';
+import { Box, IconButton, Tooltip, FormGroup, Switch, Paper } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 
 import * as React from 'react';
@@ -20,10 +20,12 @@ import Slider from '@mui/material/Slider';
 import { Label } from '@mui/icons-material';
 import { useSelector, useDispatch } from 'react-redux'
 import {
-setQuality,
-enableEncode,
-setOperatingSystem,
-setOutputFormat
+    setQuality,
+    enableEncode,
+    setOperatingSystem,
+    setOutputFormat,
+    setFileName,
+    setOutputName
 } from 'src/features/settings/settingsSlice';
 
 const modalStyle = {
@@ -36,7 +38,11 @@ const modalStyle = {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
-    display: 'flex',
+    // display: 'flex',
+    display: 'block',
+    minWidth: '415px',
+    maxWidth: '900px',
+    
 };
 
 function TabPanel(props) {
@@ -84,23 +90,50 @@ const Selection = ({ values, legend, value, onChange }) => {
     </FormControl>);
 };
 
-const OutPutFormatSelection = ({ value, onChange }) => Selection({
-    values: [{ "label": "M4b (fastest)", "value": "m4b" }, "flac", "mp3"],
-    legend: "Output Format",
-    value,
-    onChange
-});
+const OutPutFormatSelection = () => {
+    const reducer = setOutputFormat;
+    const value = useSelector((state) => state.settings.outputFormat);
 
-const OSSelection = ({ value, onChange }) => Selection({
-    values: [
-        { "label": "Windows", "value": "win" },
-        { "label": "Linux", "value": "linux" },
-        { "label": "Mac", "value": "osx" }
-    ],
-    legend: "Operating System",
-    value,
-    onChange
-});
+    const dispatch = useDispatch();
+    return Selection({
+        value: value,
+        onChange: x => dispatch(reducer(x)),
+
+        legend: "Output Format",
+        values: [{ "label": "M4b (fastest)", "value": "m4b" }, "flac", "mp3"]
+    });
+};
+
+const OSSelection = () => {
+    const dispatch = useDispatch();
+    const reducer = setOperatingSystem;
+    const value = useSelector((state) => state.settings.operatingSystem);
+
+    return Selection({
+        legend: "Operating System",
+        values: [
+            { "label": "Windows", "value": "win" },
+            { "label": "Linux", "value": "linux" },
+            { "label": "Mac", "value": "osx" }
+        ],
+        value: value, onChange: x => dispatch(reducer(x)),
+    });
+};
+
+const NameSelection = () => {
+    const dispatch = useDispatch();
+    const reducer = setOutputName;
+    const value = useSelector((state) => state.settings.outputName);
+
+    return Selection({
+        legend: "FileName",
+        values: [
+            { "label": "Preserve", "value": "keep" },
+            { "label": "Metadata", "value": "meta" },
+        ],
+        value: value, onChange: x => dispatch(reducer(x))
+    });
+};
 
 
 const QualitySelection = () => {
@@ -133,17 +166,11 @@ const QualitySelection = () => {
 
 
 export const SettingsModal = (props) => {
-    
-
     const [open, setOpen] = React.useState(false);
     const [currentTab, setCurrentTab] = React.useState(0);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    
-    const dispatch = useDispatch();
-    const operatingSystem = useSelector((state) => state.settings.operatingSystem);
-    const outputFormat = useSelector((state) => state.settings.outputFormat);
 
     return (<>
         <Tooltip title="Settings">
@@ -156,9 +183,22 @@ export const SettingsModal = (props) => {
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
+        // style={{minwidth: '360px'}}
         >
             <Box sx={modalStyle}>
-                <Tabs
+
+                <OutPutFormatSelection />
+                <OSSelection />
+                <NameSelection />
+                <QualitySelection />
+                {/* <Paper style={{width:"100%"}}>
+                    <OutPutFormatSelection />
+                    <OSSelection />
+                    <NameSelection />
+                    <QualitySelection />
+                </Paper> */}
+
+                {/* <Tabs
                     orientation="vertical"
                     variant="scrollable"
                     value={currentTab}
@@ -166,7 +206,7 @@ export const SettingsModal = (props) => {
                     aria-label="Vertical tabs example"
                     sx={{ borderRight: 1, borderColor: 'divider' }}
                 >
-                    <Tab label="Quality" {...a11yProps(0)} />
+                    <Tab label="General" {...a11yProps(0)} />
                     <Tab label="Item Two" {...a11yProps(1)} />
                     <Tab label="Item Three" {...a11yProps(2)} />
                     <Tab label="Item Four" {...a11yProps(3)} />
@@ -175,12 +215,13 @@ export const SettingsModal = (props) => {
                     <Tab label="Item Seven" {...a11yProps(6)} />
                 </Tabs>
                 <TabPanel value={currentTab} index={0}>
-                    <OutPutFormatSelection value={outputFormat} onChange={x => dispatch(setOutputFormat(x))} />
-                    <OSSelection value={operatingSystem} onChange={x => dispatch(setOperatingSystem(x))} />
+                    <OutPutFormatSelection />
+                    <OSSelection  />
+                    <NameSelection  />
                     <QualitySelection />
 
                 </TabPanel>
-                <TabPanel value={currentTab} index={1}>
+                 <TabPanel value={currentTab} index={1}>
                     Item Two
                 </TabPanel>
                 <TabPanel value={currentTab} index={2}>
@@ -197,7 +238,7 @@ export const SettingsModal = (props) => {
                 </TabPanel>
                 <TabPanel value={currentTab} index={6}>
                     Item Seven
-                </TabPanel>
+                </TabPanel>  */}
             </Box>
         </Modal>
     </>);

@@ -7,6 +7,7 @@ export const settingsSlice = createSlice({
         encodeEnabled: false,
         operatingSystem: 'win',
         outputFormat: 'm4b',
+        outputName: 'keep',
     },
     reducers: {
         setQuality: (state, action) => {
@@ -20,17 +21,21 @@ export const settingsSlice = createSlice({
         },
         setOutputFormat: (state, action) => {
             state.outputFormat = action.payload;
+        },
+        setOutputName: (state, action) => { 
+            state.outputName = action.payload;
         }
     },
 })
 
 // Action creators are generated for each case reducer function
 // export const { increment, decrement, incrementByAmount } = settingsSlice.actions
-export const { 
-    setQuality, 
-    enableEncode, 
-    setOperatingSystem, 
-    setOutputFormat 
+export const {
+    setQuality,
+    enableEncode,
+    setOperatingSystem,
+    setOutputFormat,
+    setOutputName,
 } = settingsSlice.actions
 
 // export const act = settingsSlice.actions
