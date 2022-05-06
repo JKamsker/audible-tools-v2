@@ -9,6 +9,17 @@ import OnlineConverter from '../utils/online-converter';
 
 import { extractChecksum, resolveActivationBytes } from '../utils/AaxChecksumExtractor'
 
+import { useSelector, useDispatch } from 'react-redux'
+import { addBook } from 'src/features/books/bookSlice';
+
+import { v4 } from 'uuid';
+// import {
+//   setQuality,
+//   enableEncode,
+//   setOperatingSystem,
+//   setOutputFormat
+//   } from 'src/features/settings/settingsSlice';
+
 const RenderBooks = (bookData) => {
   return bookData.map((book, index) => RenderBook(book));
 }
@@ -28,33 +39,39 @@ const RenderBook = (bookData) => {
 
 
 
-const onFiles = async (files, bookData, setBookData) => {
+const onFiles = async (files, addBookData) => {
   let converter = new OnlineConverter();
+
+
 
   for (let i = 0; i < files.length; i++) {
     let info = await converter.getInfo(files[i]);
-    const checksum = await extractChecksum(files[i]);    
+    const checksum = await extractChecksum(files[i]);
     const bytes = await resolveActivationBytes(checksum);
 
-    info = {...info, checksum, activationBytes: bytes};
+    info = { ...info, checksum, activationBytes: bytes, key: v4() };
 
-    setBookData(prev => [...prev, info])
+    // addBookData(prev => [...prev, info])
+    addBookData(info)
   }
 }
 
 
 const Dashboard = () => {
-  const def = false ? [{
-    name: "Book",
-    author: "TestAuthor",
-    title: "TestTitle",
-    fileName: "TestFileName.file",
-    checksum: "deadbeef",
-    activationBytes: "deadbeef",
-    duration: "25:36",
-  }] : [];
+  // const def = false ? [{
+  //   name: "Book",
+  //   author: "TestAuthor",
+  //   title: "TestTitle",
+  //   fileName: "TestFileName.file",
+  //   checksum: "deadbeef",
+  //   activationBytes: "deadbeef",
+  //   duration: "25:36",
+  // }] : [];
 
-  const [bookData, setbookData] = useState(def);
+  // const [bookData, setbookData] = useState(def);
+
+  const dispatch = useDispatch();
+  const bookData = useSelector((state) => state.books.items);
 
   useEffect(async () => await OnlineConverter.initialize());
   return (
@@ -70,7 +87,7 @@ const Dashboard = () => {
           spacing={3}
         >
           {RenderBooks(bookData)}
-          <AudioDropzone onDrop={(files) => onFiles(files, bookData, setbookData)} />
+          <AudioDropzone onDrop={(files) => onFiles(files, book => dispatch(addBook(book)))} />
         </Grid>
       </Container>
     </>

@@ -1,8 +1,8 @@
 import {
-  Card, 
+  Card,
   CardContent,
-  Grid, 
-  Typography, 
+  Grid,
+  Typography,
   IconButton,
   Box,
   Button,
@@ -34,16 +34,13 @@ export const AudioBook = (props) => {
     alt="Picture of the author"
     width={500}
     height={500}
-    style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center'
-    }} />;
+    className="CoverImage" />;
 
   return (
     <Card
       sx={{ height: '100%' }}
-      {...props}
+
+    // {...props}
     >
       <CardContent>
         <Grid
@@ -78,13 +75,25 @@ export const AudioBook = (props) => {
             {renderText("Checksum", props.checksum, true)}
             {renderText("Activation Bytes", props.activationBytes, true)}
             {renderText("Runtime", props.duration)}
+
+          </Grid>
+          <Grid item xs={12} style={{ marginLeft: '0' }} >
             <Button
               color="primary"
               variant="contained"
+              style={{ marginRight: '10px' }}
             >
               Convert
             </Button>
+            <Button
+              color="primary"
+              variant="contained"
+              
+            >
+              Generate Command
+            </Button>
           </Grid>
+
         </Grid>
       </CardContent>
     </Card>

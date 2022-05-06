@@ -18,6 +18,13 @@ import FormLabel from '@mui/material/FormLabel';
 
 import Slider from '@mui/material/Slider';
 import { Label } from '@mui/icons-material';
+import { useSelector, useDispatch } from 'react-redux'
+import {
+setQuality,
+enableEncode,
+setOperatingSystem,
+setOutputFormat
+} from 'src/features/settings/settingsSlice';
 
 const modalStyle = {
     position: 'absolute',
@@ -42,7 +49,7 @@ function TabPanel(props) {
             id={`vertical-tabpanel-${index}`}
             aria-labelledby={`vertical-tab-${index}`}
             {...other}
-            
+
         >
             {value === index && (
                 <Box sx={{ p: 3 }} >
@@ -96,15 +103,26 @@ const OSSelection = ({ value, onChange }) => Selection({
 });
 
 
-const QualitySelection = ({encodeEnabled, setEncodeEnabled, quality, setQuality}) => {
-    // debugger;
+const QualitySelection = () => {
+    const dispatch = useDispatch();
+    const quality = useSelector((state) => state.settings.quality);
+    const encodeEnabled = useSelector((state) => state.settings.encodeEnabled);
+
     return <Box style={{ display: 'flex' }}>
         <FormGroup>
-            <FormControlLabel control={<Switch value={encodeEnabled} onChange={(x, y) => setEncodeEnabled(y)} />} label="Encode (Slow)" style={{ whiteSpace: 'nowrap' }} />
+            <FormControlLabel
+                label="Encode (Slow)"
+                style={{ whiteSpace: 'nowrap' }}
+                control={
+                    <Switch
+                        checked={encodeEnabled}
+                        onChange={(x, y) => dispatch(enableEncode(y))} />
+                }
+            />
         </FormGroup>
         <Slider
             value={quality}
-            onChange={(x, y) => setQuality(y)}
+            onChange={(x, y) => dispatch(setQuality(y))}
             aria-labelledby="input-slider"
             disabled={!encodeEnabled}
             min={64}
@@ -115,16 +133,17 @@ const QualitySelection = ({encodeEnabled, setEncodeEnabled, quality, setQuality}
 
 
 export const SettingsModal = (props) => {
-    const [open, setOpen] = React.useState(false);
-    const [tabValue, setTabValue] = React.useState(0);
-    const [outputFormat, setOutputFormat] = React.useState('m4b');
-    const [operatingSystem, setOperatingSystem] = React.useState('win');
-    const [encodeEnabled, setEncodeEnabled] = React.useState(false);
+    
 
-    const [quality, setQuality] = React.useState(320);
+    const [open, setOpen] = React.useState(false);
+    const [currentTab, setCurrentTab] = React.useState(0);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    
+    const dispatch = useDispatch();
+    const operatingSystem = useSelector((state) => state.settings.operatingSystem);
+    const outputFormat = useSelector((state) => state.settings.outputFormat);
 
     return (<>
         <Tooltip title="Settings">
@@ -142,8 +161,8 @@ export const SettingsModal = (props) => {
                 <Tabs
                     orientation="vertical"
                     variant="scrollable"
-                    value={tabValue}
-                    onChange={(event, newValue) => setTabValue(newValue)}
+                    value={currentTab}
+                    onChange={(event, newValue) => setCurrentTab(newValue)}
                     aria-label="Vertical tabs example"
                     sx={{ borderRight: 1, borderColor: 'divider' }}
                 >
@@ -155,33 +174,31 @@ export const SettingsModal = (props) => {
                     <Tab label="Item Six" {...a11yProps(5)} />
                     <Tab label="Item Seven" {...a11yProps(6)} />
                 </Tabs>
-                <TabPanel value={tabValue} index={0}>
-                    <OutPutFormatSelection value={outputFormat} onChange={setOutputFormat} />
-                    <OSSelection value={operatingSystem} onChange={setOperatingSystem} />
-                    <QualitySelection encodeEnabled={encodeEnabled} setEncodeEnabled={setEncodeEnabled} quality={quality} setQuality={setQuality} />
+                <TabPanel value={currentTab} index={0}>
+                    <OutPutFormatSelection value={outputFormat} onChange={x => dispatch(setOutputFormat(x))} />
+                    <OSSelection value={operatingSystem} onChange={x => dispatch(setOperatingSystem(x))} />
+                    <QualitySelection />
 
                 </TabPanel>
-                <TabPanel value={tabValue} index={1}>
+                <TabPanel value={currentTab} index={1}>
                     Item Two
                 </TabPanel>
-                <TabPanel value={tabValue} index={2}>
+                <TabPanel value={currentTab} index={2}>
                     Item Three
                 </TabPanel>
-                <TabPanel value={tabValue} index={3}>
+                <TabPanel value={currentTab} index={3}>
                     Item Four
                 </TabPanel>
-                <TabPanel value={tabValue} index={4}>
+                <TabPanel value={currentTab} index={4}>
                     Item Five
                 </TabPanel>
-                <TabPanel value={tabValue} index={5}>
+                <TabPanel value={currentTab} index={5}>
                     Item Six
                 </TabPanel>
-                <TabPanel value={tabValue} index={6}>
+                <TabPanel value={currentTab} index={6}>
                     Item Seven
                 </TabPanel>
             </Box>
         </Modal>
     </>);
-
-   
 };
