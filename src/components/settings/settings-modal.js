@@ -167,23 +167,17 @@ const QualitySelection = () => {
 
 export const SettingsModal = (props) => {
     const [open, setOpen] = React.useState(false);
-    const [currentTab, setCurrentTab] = React.useState(0);
-
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
     return (<>
         <Tooltip title="Settings">
-            <IconButton sx={{ ml: 1 }} onClick={handleOpen}>
+            <IconButton sx={{ ml: 1 }} onClick={ () => setOpen(true)}>
                 <SettingsIcon fontSize="small" />
             </IconButton>
         </Tooltip>
         <Modal
             open={open}
-            onClose={handleClose}
+            onClose={() => setOpen(false)}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
-        // style={{minwidth: '360px'}}
         >
             <Box sx={modalStyle}>
 
@@ -191,54 +185,6 @@ export const SettingsModal = (props) => {
                 <OSSelection />
                 <NameSelection />
                 <QualitySelection />
-                {/* <Paper style={{width:"100%"}}>
-                    <OutPutFormatSelection />
-                    <OSSelection />
-                    <NameSelection />
-                    <QualitySelection />
-                </Paper> */}
-
-                {/* <Tabs
-                    orientation="vertical"
-                    variant="scrollable"
-                    value={currentTab}
-                    onChange={(event, newValue) => setCurrentTab(newValue)}
-                    aria-label="Vertical tabs example"
-                    sx={{ borderRight: 1, borderColor: 'divider' }}
-                >
-                    <Tab label="General" {...a11yProps(0)} />
-                    <Tab label="Item Two" {...a11yProps(1)} />
-                    <Tab label="Item Three" {...a11yProps(2)} />
-                    <Tab label="Item Four" {...a11yProps(3)} />
-                    <Tab label="Item Five" {...a11yProps(4)} />
-                    <Tab label="Item Six" {...a11yProps(5)} />
-                    <Tab label="Item Seven" {...a11yProps(6)} />
-                </Tabs>
-                <TabPanel value={currentTab} index={0}>
-                    <OutPutFormatSelection />
-                    <OSSelection  />
-                    <NameSelection  />
-                    <QualitySelection />
-
-                </TabPanel>
-                 <TabPanel value={currentTab} index={1}>
-                    Item Two
-                </TabPanel>
-                <TabPanel value={currentTab} index={2}>
-                    Item Three
-                </TabPanel>
-                <TabPanel value={currentTab} index={3}>
-                    Item Four
-                </TabPanel>
-                <TabPanel value={currentTab} index={4}>
-                    Item Five
-                </TabPanel>
-                <TabPanel value={currentTab} index={5}>
-                    Item Six
-                </TabPanel>
-                <TabPanel value={currentTab} index={6}>
-                    Item Seven
-                </TabPanel>  */}
             </Box>
         </Modal>
     </>);
