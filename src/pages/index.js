@@ -45,13 +45,15 @@ const onFiles = async (files, addBookData) => {
 
 
   for (let i = 0; i < files.length; i++) {
-    let info = await converter.getInfo(files[i]);
-    const checksum = await extractChecksum(files[i]);
+    const file = files[i];
+    
+    let info = await converter.getInfo(file);
+
+    const checksum = await extractChecksum(file);
     const bytes = await resolveActivationBytes(checksum);
 
-    info = { ...info, checksum, activationBytes: bytes, key: v4() };
+    info = { ...info, checksum, activationBytes: bytes, file, key: v4() };
 
-    // addBookData(prev => [...prev, info])
     addBookData(info)
   }
 }
