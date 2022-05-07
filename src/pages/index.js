@@ -10,7 +10,7 @@ import OnlineConverter from '../utils/online-converter';
 import { extractChecksum, resolveActivationBytes } from '../utils/AaxChecksumExtractor'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { addBook } from 'src/features/books/bookSlice';
+import { addBook, updateProgress } from 'src/features/books/bookSlice';
 import LinearProgress from '@mui/material/LinearProgress';
 
 import { v4 } from 'uuid';
@@ -75,7 +75,7 @@ const onFiles = async (files, addBookData, onProgress) => {
   }
 
   if (onProgress) {
-    onProgress({ value: 100, finished: true });
+    onProgress({ value: 0, finished: true });
   }
 }
 
@@ -90,10 +90,11 @@ const Dashboard = () => {
   //   activationBytes: "deadbeef",
   //   duration: "25:36",
   // }] : [];
-  const [progress, setProgress] = React.useState({ value: 0, finished: true });
+  // const [progress, setProgress] = React.useState({ value: 0, finished: true });
 
   const dispatch = useDispatch();
   const bookData = useSelector((state) => state.books.items);
+  // const progress = useSelector((state) => state.books.progress);
 
   useEffect(async () => await OnlineConverter.initialize());
   return (
@@ -103,10 +104,10 @@ const Dashboard = () => {
           AAX Converter
         </title>
       </Head>
-      <LinearProgress variant="determinate" 
+      {/* <LinearProgress variant="determinate" 
           value={progress?.value} 
           style={{ display: progress.finished ? 'none' : 'block' }} 
-      />
+      /> */}
       <Container maxWidth={false}>
 
         <Grid
@@ -116,9 +117,11 @@ const Dashboard = () => {
         >
           {RenderBooks(bookData)}
           <AudioDropzone 
-            onDrop={(files) => onFiles(files, book => dispatch(addBook(book)), callback => {
-            setProgress(callback);
-          })} />
+            onDrop={(files) => onFiles(
+              files, 
+              book => dispatch(addBook(book)), 
+              callback => dispatch(updateProgress(callback))
+            )} />
         </Grid>
       </Container>
     </>

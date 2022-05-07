@@ -7,8 +7,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Bell as BellIcon } from '../icons/bell';
 import { UserCircle as UserCircleIcon } from '../icons/user-circle';
 import { Users as UsersIcon } from '../icons/users';
-import {SettingsIcon} from '@mui/icons-material/Settings';
-import {SettingsModal} from './settings/settings-modal';
+import { SettingsIcon } from '@mui/icons-material/Settings';
+import { SettingsModal } from './settings/settings-modal';
 
 import * as React from 'react';
 // import Box from '@mui/material/Box';
@@ -18,6 +18,11 @@ import * as React from 'react';
 
 // import Tabs from '@mui/material/Tabs';
 // import Tab from '@mui/material/Tab';
+
+import { useSelector, useDispatch } from 'react-redux'
+import { addBook, updateProgress } from 'src/features/books/bookSlice';
+
+import LinearProgress from '@mui/material/LinearProgress';
 
 
 
@@ -29,6 +34,8 @@ const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
 
 export const DashboardNavbar = (props) => {
   const { onSidebarOpen, ...other } = props;
+
+  const progress = useSelector((state) => state.books.progress);
 
   return (
     <>
@@ -67,9 +74,13 @@ export const DashboardNavbar = (props) => {
             </IconButton>
           </Tooltip>
           <Box sx={{ flexGrow: 1 }} />
-          <SettingsModal a="b"/>
+          <SettingsModal a="b" />
 
         </Toolbar>
+        <LinearProgress variant="determinate"
+          value={progress?.value}
+          style={{ display: progress.finished ? 'none' : 'block' }}
+        />
       </DashboardNavbarRoot>
 
     </>

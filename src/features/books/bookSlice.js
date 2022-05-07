@@ -1,14 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-export const settingsSlice = createSlice({
+export const booksSlice = createSlice({
     name: 'books',
     initialState: {
+        progress: { value: 0, finished: true },
         items: [],
     },
     reducers: {
         addBook: (state, action) => {
             state.items = [...state.items, action.payload];
         },
+        updateProgress: (state, action) => {
+            state.progress = action.payload;
+        }
         // enableEncode: (state, action) => {
         //     state.encodeEnabled = action.payload;
         // },
@@ -25,10 +29,8 @@ export const settingsSlice = createSlice({
 // export const { increment, decrement, incrementByAmount } = settingsSlice.actions
 export const { 
     addBook, 
-    // enableEncode, 
-    // setOperatingSystem, 
-    // setOutputFormat 
-} = settingsSlice.actions
+    updateProgress,
+} = booksSlice.actions
 
 // export const act = settingsSlice.actions
-export default settingsSlice.reducer
+export default booksSlice.reducer
