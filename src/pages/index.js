@@ -13,12 +13,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { addBook } from 'src/features/books/bookSlice';
 
 import { v4 } from 'uuid';
-// import {
-//   setQuality,
-//   enableEncode,
-//   setOperatingSystem,
-//   setOutputFormat
-//   } from 'src/features/settings/settingsSlice';
 
 const RenderBooks = (bookData) => {
   return bookData.map((book, index) => RenderBook(book));
@@ -70,8 +64,6 @@ const Dashboard = () => {
   //   duration: "25:36",
   // }] : [];
 
-  // const [bookData, setbookData] = useState(def);
-
   const dispatch = useDispatch();
   const bookData = useSelector((state) => state.books.items);
 
@@ -80,13 +72,14 @@ const Dashboard = () => {
     <>
       <Head>
         <title>
-          Dashboard | Material Kit
+          AAX Converter
         </title>
       </Head>
       <Container maxWidth={false}>
         <Grid
           container
           spacing={3}
+          style={{marginTop: '1px'}}
         >
           {RenderBooks(bookData)}
           <AudioDropzone onDrop={(files) => onFiles(files, book => dispatch(addBook(book)))} />

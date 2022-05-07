@@ -30,8 +30,8 @@ export const AudioBook = (props) => {
   // const example = ({ data }) => <img src={`data:image/png;base64,${props.cover}`} />
   const coverImage = <Image
     loader={xLoader}
-    src="me.png"
-    alt="Picture of the author"
+    src="Cover.png"
+    alt="Cover Image"
     width={500}
     height={500}
     className="CoverImage" />;
