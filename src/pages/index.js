@@ -11,6 +11,7 @@ import { extractChecksum, resolveActivationBytes } from '../utils/AaxChecksumExt
 
 import { useSelector, useDispatch } from 'react-redux'
 import { addBook } from 'src/features/books/bookSlice';
+import LinearProgress from '@mui/material/LinearProgress';
 
 import { v4 } from 'uuid';
 
@@ -25,7 +26,7 @@ const RenderBook = (bookData) => {
     lg={4}
     sm={6}
     xs={12}
-
+    key={bookData.key}
   >
     <AudioBook {...bookData} />
   </Grid>);
@@ -33,22 +34,48 @@ const RenderBook = (bookData) => {
 
 
 
-const onFiles = async (files, addBookData) => {
+const onFiles = async (files, addBookData, onProgress) => {
   let converter = new OnlineConverter();
-
-
 
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
 
-    let info = await converter.getInfo(file);
+    let info = await converter.getInfo(file, ({ current, total, percent }) => {
+      const absoluteProgress = (i / files.length) * 100;
+
+      const chunkSize = (1 / files.length);
+      const progress = absoluteProgress + (chunkSize * percent);
+
+      console.log({
+        progress,
+        i,
+        current,
+        total,
+        percent,
+        absoluteProgress
+      });
+
+      if (onProgress) {
+        onProgress({ value: progress, finished: false });
+      }
+    });
 
     const checksum = await extractChecksum(file);
     const bytes = await resolveActivationBytes(checksum);
 
-    info = { ...info, checksum, activationBytes: bytes, getFile: () => file, key: v4() };
+    info = {
+      ...info,
+      checksum,
+      activationBytes: bytes,
+      key: v4(),
+      // getFile: () => file,
+    };
 
-    addBookData(info)
+    addBookData(info);
+  }
+
+  if (onProgress) {
+    onProgress({ value: 100, finished: true });
   }
 }
 
@@ -63,6 +90,7 @@ const Dashboard = () => {
   //   activationBytes: "deadbeef",
   //   duration: "25:36",
   // }] : [];
+  const [progress, setProgress] = React.useState({ value: 0, finished: true });
 
   const dispatch = useDispatch();
   const bookData = useSelector((state) => state.books.items);
@@ -75,14 +103,22 @@ const Dashboard = () => {
           AAX Converter
         </title>
       </Head>
+      <LinearProgress variant="determinate" 
+          value={progress?.value} 
+          style={{ display: progress.finished ? 'none' : 'block' }} 
+      />
       <Container maxWidth={false}>
+
         <Grid
           container
           spacing={3}
-          style={{marginTop: '1px'}}
+          style={{ marginTop: '1px' }}
         >
           {RenderBooks(bookData)}
-          <AudioDropzone onDrop={(files) => onFiles(files, book => dispatch(addBook(book)))} />
+          <AudioDropzone 
+            onDrop={(files) => onFiles(files, book => dispatch(addBook(book)), callback => {
+            setProgress(callback);
+          })} />
         </Grid>
       </Container>
     </>

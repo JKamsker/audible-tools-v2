@@ -15,9 +15,14 @@ export default class OnlineConverter {
 
     }
 
-    getInfo = async (file) => {
+    getInfo = async (file, onProgress) => {
         const mi = await OnlineConverter.getMediaInfo();
-        const rawInfo = await mi.analyzeData(() => file.size, this.readChunk(file));
+        const rawInfo = await mi.analyzeData(() => file.size, this.readChunk(file, offset => {
+            if(onProgress){
+                onProgress({current: offset, total: file.size, percent: offset / file.size * 100});
+            }
+            // console.log(`reading chunk ${offset} of ${file.size} (${(offset/file.size*100).toFixed(2)}%)`);
+        }));
         return {
             author: rawInfo.media.track[0].Album_Performer,
             title: rawInfo.media.track[0].Title,
@@ -46,8 +51,11 @@ export default class OnlineConverter {
       }
 
     
-    readChunk = (file) => (chunkSize, offset) =>
+    readChunk = (file, callback) => (chunkSize, offset) =>
         new Promise((resolve, reject) => {
+            if(callback){
+                callback(offset);
+            }
             const reader = new FileReader();
             reader.onload = (event) => {
                 if (event.target.error) {

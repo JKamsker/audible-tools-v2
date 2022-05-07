@@ -178,6 +178,7 @@ export const SettingsModal = (props) => {
             onClose={() => setOpen(false)}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
+            
         >
             <Box sx={modalStyle}>
 
