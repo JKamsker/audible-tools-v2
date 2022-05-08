@@ -124,6 +124,19 @@ export const DashboardSidebar = (props) => {
           ))}
         </Box>
       </Box>
+      <Box sx={{
+        flex: 0,
+        height: '100%',
+        anchor: 'bottom'
+      }}>
+        <Divider
+          sx={{
+            borderColor: '#2D3748',
+            marginBottom: 3
+          }}
+        />
+        <Typography >Ayy</Typography>
+      </Box>
     </>
   );
 

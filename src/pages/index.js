@@ -14,23 +14,6 @@ import { addBook, updateProgress } from 'src/features/books/bookSlice';
 
 import { v4 as uuid } from 'uuid';
 
-const RenderBooks = (bookData) => {
-  return bookData.map((book, index) => RenderBook(book));
-}
-
-const RenderBook = (bookData) => {
-  return (<Grid
-    item
-    xl={3}
-    lg={4}
-    sm={6}
-    xs={12}
-    key={bookData.key}
-  >
-    <AudioBook {...bookData} />
-  </Grid>);
-};
-
 const onFiles = async (files, addBookData, onProgress) => {
   let converter = new OnlineConverter();
 
@@ -96,11 +79,21 @@ const Dashboard = () => {
           spacing={3}
           style={{ marginTop: '1px' }}
         >
-          {RenderBooks(bookData)}
-          <AudioDropzone 
+          {bookData.map((book) => (
+            <Grid
+              item
+              xl={3}
+              lg={4}
+              sm={6}
+              xs={12}
+              key={book.key}
+            >
+              <AudioBook {...book} />
+          </Grid>))}
+          <AudioDropzone
             onDrop={(files) => onFiles(
-              files, 
-              book => dispatch(addBook(book)), 
+              files,
+              book => dispatch(addBook(book)),
               callback => dispatch(updateProgress(callback))
             )} />
         </Grid>
