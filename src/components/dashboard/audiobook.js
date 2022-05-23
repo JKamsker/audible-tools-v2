@@ -15,19 +15,14 @@ import Image from 'next/image'
 
 
 // import TestCover from './TestCover.jpg';
-const myLoader = ({ src, width, quality }) => {
-  // if(props.cover){
-  //   return <Image src={props.cover} width={width} quality={quality} />
-  // }
+const defaultLoader = ({ src, width, quality }) => {
   return `http://localhost:3000/static/images/TestCover.jpg`
 }
 
 export const AudioBook = (props) => {
   const url = "data:image/png;base64," + props.cover;
-  const xLoader = props.cover ? () => url : myLoader;
-  // alert(props.getFile().name);
+  const xLoader = props.cover ? () => url : defaultLoader;
 
-  // const example = ({ data }) => <img src={`data:image/png;base64,${props.cover}`} />
   const coverImage = <Image
     loader={xLoader}
     src="Cover.png"
