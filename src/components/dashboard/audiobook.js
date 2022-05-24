@@ -11,12 +11,18 @@ import {
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import Image from 'next/image'
+import { ThermostatOutlined } from '@mui/icons-material';
 
 
 
 // import TestCover from './TestCover.jpg';
 const defaultLoader = ({ src, width, quality }) => {
   return `http://localhost:3000/static/images/TestCover.jpg`
+}
+
+const convert = (props) => {
+  // alert('Hello from the other side' );
+  debugger;
 }
 
 export const AudioBook = (props) => {
@@ -64,7 +70,6 @@ export const AudioBook = (props) => {
             >
               {props.fileName}
             </Typography>
-            {/* </Grid> */}
             {renderText("Title", props.title)}
             {renderText("Author", props.author)}
             {renderText("Checksum", props.checksum, true)}
@@ -77,6 +82,7 @@ export const AudioBook = (props) => {
               color="primary"
               variant="contained"
               style={{ marginRight:'10px', marginBottom:'10px' }}
+              onClick={() => convert(props)}
             >
               Convert
             </Button>

@@ -29,6 +29,7 @@ export default class OnlineConverter {
             fileName: file.name,
             duration: this.getHHMMSSFromSeconds(rawInfo.media.track[1].Duration),
             cover: rawInfo.media.track[0].Cover_Data,
+            file
           };
     }
 

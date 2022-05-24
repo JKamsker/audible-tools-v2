@@ -137,7 +137,6 @@ export const DashboardSidebar = (props) => {
       <Divider
           sx={{
             borderColor: '#2D3748',
-            // marginBottom: 3,
           }}
         />
       <Box
@@ -153,26 +152,20 @@ export const DashboardSidebar = (props) => {
         <IconButton
           aria-label="discord"
           // 
-          onClick={() => {
-            window.open('https://discord.gg/P9evWVw8DW')
-          }}
+          onClick={() => window.open('https://discord.gg/P9evWVw8DW')}
         >
           <FaDiscord style={{ height: 30, width: 30 }}/>
         </IconButton>
 
         <IconButton
           aria-label="reddit"
-          // style={{ marginBottom: 10 }}
-          onClick={() => {
-            alert('todo')
-          }}
+          onClick={() => window.open('https://www.reddit.com/r/audible')}
         >
           <FaReddit />
         </IconButton>
 
         <IconButton
           aria-label="email"
-          // style={{ marginBottom: 10 }}
           onClick={() =>
             window.open(
               'https://mailhide.io/e/0gMsnii0',
@@ -186,7 +179,6 @@ export const DashboardSidebar = (props) => {
 
         <IconButton
           aria-label="donate"
-          // style={{ marginBottom: 10 }}
           onClick={() => {
             alert('todo')
           }}
@@ -196,7 +188,6 @@ export const DashboardSidebar = (props) => {
 
         <IconButton
           aria-label="audible"
-          // style={{ marginBottom: 10 }}
           onClick={() => {
             const site = navigator.language.includes('de')
               ? 'https://www.audible.de/library/titles'
